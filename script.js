@@ -1,4 +1,3 @@
-// Especifica la ruta del trabajador de PDF.js
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
 
 const fileInput = document.getElementById('fileInput');
@@ -16,10 +15,11 @@ fileInput.addEventListener('change', function(event) {
                 page.getTextContent().then(function(textContent) {
                     const text = textContent.items.map(function(item) {
                         return item.str;
+                        
                     }).join(' ');
-                    
+                    console.log(text);
                     const jsonData = extractDataFromText(text);
-                    outputDiv.textContent = ''; // Limpiar cualquier texto anterior
+                    outputDiv.textContent = ''; 
                     jsonOutput.textContent = JSON.stringify(jsonData, null, 2);
                 });
             });
@@ -74,7 +74,7 @@ function extractDataFromText(text) {
         }
     };
 
-    // Expresiones regulares para extraer datos del texto
+    // Extraer datos del texto
     const emisorRegex = /FACTURA ELECTRONICA RUC:\s*(\d+)\s*(.*?)Fecha de Emisión\s*:\s*(\d{2}\/\d{2}\/\d{4})\s*(.*?)RUC\s*:\s*(\d+)\s*(.*?)Tipo de Moneda\s*:\s*(.*?)\s*(.*?)Forma de pago\s*:\s*(.*)/s;
     const emisorMatch = text.match(emisorRegex);
     if (emisorMatch) {
